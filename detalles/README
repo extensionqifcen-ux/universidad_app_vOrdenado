@@ -1,0 +1,8 @@
+¿Cómo usar este "molde" para los demás archivos?
+Este archivo te sirve de plantilla exacta para los otros 11 archivos de detalles (como ley-veto.html, func-gastos.html, hist-1918.html, etc.).
+Solo tenés que copiar este archivo y cambiar 3 cosas para cada nuevo tema:
+El título del archivo en el <title> del <head>.
+El contenido (el <h2> y los <p>).
+Asegurarte de que el botón Volver atrás apunte a la sección correcta. Por ejemplo:
+Si estás armando sal-inflacion.html, el botón debería ser: onclick="window.location.href='../secciones/salarios.html'"
+Si estás armando hist-1918.html, el botón debería ser: onclick="window.location.href='../secciones/historia.html'"
