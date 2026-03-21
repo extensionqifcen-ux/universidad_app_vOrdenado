@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universidad Pública - Investigación Interactiva</title>
+  
+  <!-- Importamos la fuente Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- CONECTAMOS EL ARCHIVO CSS EXTERNO -->
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- ============================== -->
+    <!-- 2b. MENÚ VERSIÓN 2 (BRÚJULA)   -->
+    <!-- ============================== -->
+    <div id="menu-v2" class="screen">
+      <div class="compass-container">
+        
+        <!-- Flecha Norte -->
+        <button class="compass-btn btn-norte titilante" onclick="window.location.href='secciones/ley.html'">
+          <span class="arrow">▲</span>
+          <span class="icon">📜</span>
+          <span class="label">La Ley</span>
+        </button>
+
+        <!-- Flecha Oeste -->
+        <button class="compass-btn btn-oeste titilante" onclick="window.location.href='secciones/historia.html'">
+          <span class="arrow">◀</span>
+          <div class="icon-group">
+            <span class="icon">⏳</span>
+            <span class="label">Historia</span>
+          </div>
+        </button>
+
+        <!-- Mensaje Principal (CENTRO) -->
+        <div class="compass-center">
+          <h2>Elige tu<br>camino</h2>
+          <p class="subtitle" style="margin-bottom: 0; font-size: 0.85em;">Hacia dónde querés explorar primero?</p>
+          <button class="btn-back-small" onclick="window.location.href='index.html'">Volver al inicio</button>
+        </div>
+
+        <!-- Flecha Este -->
+        <button class="compass-btn btn-este titilante" onclick="window.location.href='secciones/salarios.html'">
+          <div class="icon-group">
+            <span class="icon">📊</span>
+            <span class="label">Salarios</span>
+          </div>
+          <span class="arrow">▶</span>
+        </button>
+
+        <!-- Flecha Sur -->
+        <button class="compass-btn btn-sur titilante" onclick="window.location.href='secciones/universidad.html'">
+          <span class="icon">🏛️</span>
+          <span class="label">Universidad</span>
+          <span class="arrow">▼</span>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
