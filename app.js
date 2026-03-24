@@ -98,6 +98,9 @@ async function navigateAnimated(url, direction) {
             newScreen.style.width = '';
             newScreen.classList.remove(inClass);
             
+            // ACA ESTÁ LA LÍNEA NUEVA QUE CLAVA LOS FRENOS
+            newScreen.style.animation = 'none'; 
+            
             appContainer.style.position = '';
             appContainer.style.height = '';
             appContainer.style.overflow = '';
@@ -105,8 +108,8 @@ async function navigateAnimated(url, direction) {
             window.scrollTo(0, 0); // Lo mandamos arriba de todo
             initRouter(); // Reiniciamos el rastreador para que encuentre los botones nuevos
             isAnimating = false;
-        }, 400);
-
+        }, 400);      
+      
     } catch (error) {
         console.error("Fallo la transición fluida, haciendo salto normal:", error);
         window.location.href = url; // Fallback: si algo se rompe, salta normal para no dejar a pata al usuario
