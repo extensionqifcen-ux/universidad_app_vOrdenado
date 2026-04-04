@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referencia [1]</title>
+  <link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="screen">
+      <div class="badge">Fuente de información</div>
+      <h2></h2>
+
+      <div class="ref-box">
+        <p class="subtitle" style="padding:0; margin-bottom:10px;">
+          <strong>unsa.edu.ar</strong> — Información oficial sobre el sistema de doble control presupuestario universitario y competencias del Congreso.
+        </p>
+        
+        <!-- Este link es externo, al no tener la estructura de botón de la app, 
+             abrirá el navegador normal fuera de la app -->
+        <a href="https://www.unsa.edu.ar/2024/10/las-universidades-nacionales-si-se-auditan/" 
+           target="_blank" class="ref-url">Visitar sitio web oficial ↗</a>
+      </div>
+
+      <!-- El botón de volver usa la clase btn-back para que la animación sea hacia la izquierda -->
+      <button class="btn-back" onclick="window.location.href='../detalles/func-auditorias.html'">Volver a la lectura</button>
+    </div>
+  </div>
+  <script src="../app.js"></script>
+</body>
+</html>

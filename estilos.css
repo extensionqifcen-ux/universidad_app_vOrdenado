@@ -342,4 +342,43 @@ h2 {
 @keyframes slideOutTop { from { transform: translateY(0); opacity: 0.5; } to { transform: translateY(-100%); opacity: 0; } }
 
 @keyframes slideInTop { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@keyframes slideOutBottom { from { transform: translateY(0); opacity: 0.5; } to { transform: translateY(100%); opacity: 0; } }
+@keyframes slideOutBottom { from { transform: translateY(0); opacity: 0.5; } to { transform: translateY(100%); opacity: 0; } 
+
+
+/* ESTILOS PARA CITAS Y REFERENCIAS */
+.cita {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--primary-blue);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 0.9em;
+  padding: 0 2px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.cita:active {
+  color: var(--accent-red);
+}
+
+/* Formato para la página de la referencia individual */
+.ref-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 5px solid var(--primary-blue);
+  text-align: left;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.ref-url {
+  display: block;
+  margin-top: 15px;
+  color: var(--accent-red);
+  font-weight: 800;
+  word-break: break-all;
+  text-decoration: none;
+}}
