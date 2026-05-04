@@ -382,3 +382,16 @@ h2 {
   word-break: break-all;
   text-decoration: none;
 }}
+
+/* ESTILOS PARA EL GRÁFICO DE APEXCHARTS */
+#chart-salarios {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 10px 5px 0 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border: 1px solid #EEE;
+}
+.apexcharts-tooltip {
+  font-family: 'Montserrat', sans-serif !important;
+  color: var(--text-main);
+}

@@ -2,34 +2,30 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     initRouter();
+    dibujarGraficoSalarios(); // Por si el usuario entra directo a esta URL
 });
 
-let isAnimating = false; // Evita que toquen muchos botones a la vez
+let isAnimating = false;
 
 function initRouter() {
-    // 1. Buscar todos los botones que tienen onclick="window.location.href='...'"
     const buttons = document.querySelectorAll('button[onclick^="window.location.href"]');
     
     buttons.forEach(btn => {
-        // 2. Extraer la URL de destino del atributo onclick
         const onclickText = btn.getAttribute('onclick');
         const match = onclickText.match(/'([^']+)'/);
         
         if(match && match[1]) {
             const targetUrl = match[1];
-            
-            // 3. Determinar para dónde va la animación leyendo tus propias clases CSS
-            let direction = 'right'; // Por defecto: entrar por la derecha
+            let direction = 'right'; 
             
             if (btn.classList.contains('btn-oeste') || btn.classList.contains('btn-back')) {
-                direction = 'left';  // Si es retroceso o flecha oeste, entra por la izquierda
+                direction = 'left';
             } else if (btn.classList.contains('btn-norte')) {
-                direction = 'top';   // Flecha norte entra por arriba
+                direction = 'top';
             } else if (btn.classList.contains('btn-sur')) {
-                direction = 'bottom';// Flecha sur entra por abajo
+                direction = 'bottom';
             }
 
-            // 4. Secuestrar el botón: Le borramos el salto brusco y le ponemos el nuestro
             btn.removeAttribute('onclick');
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -45,78 +41,152 @@ async function navigateAnimated(url, direction) {
     isAnimating = true;
 
     try {
-        // 5. Ir a buscar el archivo HTML de fondo
         const response = await fetch(url);
         if (!response.ok) throw new Error("No se pudo cargar el archivo");
         const htmlText = await response.text();
         
-        // 6. Extraer solo el bloque ".screen" del nuevo archivo
         const parser = new DOMParser();
         const newDoc = parser.parseFromString(htmlText, "text/html");
         const newScreen = newDoc.querySelector('.screen');
         
         if (!newScreen) throw new Error("No se encontró contenido en el destino");
 
-        // 7. Preparar la caja contenedora y las pantallas
         const appContainer = document.querySelector('.app-container');
         const currentScreen = document.querySelector('.screen');
 
-        // Fijamos el alto para que la app no colapse en el medio de la animación
         appContainer.style.position = 'relative';
         appContainer.style.height = appContainer.offsetHeight + 'px';
         appContainer.style.overflow = 'hidden';
 
-        // Definimos qué clases aplicar
         let inClass, outClass;
         if (direction === 'right')  { inClass = 'slide-in-right';  outClass = 'slide-out-left'; }
         if (direction === 'left')   { inClass = 'slide-in-left';   outClass = 'slide-out-right'; }
         if (direction === 'top')    { inClass = 'slide-in-top';    outClass = 'slide-out-bottom'; }
         if (direction === 'bottom') { inClass = 'slide-in-bottom'; outClass = 'slide-out-top'; }
 
-        // Superponemos ambas pantallas
         currentScreen.style.position = 'absolute';
-        currentScreen.style.width = 'calc(100% - 40px)'; // Respetando tus padding de 20px
+        currentScreen.style.width = 'calc(100% - 40px)'; 
         
         newScreen.style.position = 'absolute';
         newScreen.style.width = 'calc(100% - 40px)';
         
-        // Ejecutamos animación
         newScreen.classList.add(inClass);
         currentScreen.classList.add(outClass);
         appContainer.appendChild(newScreen);
 
-        // Cambiamos la URL de arriba sin recargar la página (Magia SPA)
         window.history.pushState({ path: url }, newDoc.title, url);
-        document.title = newDoc.title; // Actualiza el título de la pestaña
+        document.title = newDoc.title; 
 
-        // 8. Limpiar la basura cuando termine la animación (400ms)
         setTimeout(() => {
-            currentScreen.remove(); // Borramos el HTML viejo
+            currentScreen.remove(); 
             
-            // Le sacamos las ataduras al nuevo para que el scroll vuelva a funcionar normal
             newScreen.style.position = '';
             newScreen.style.width = '';
             newScreen.classList.remove(inClass);
-            
-            // ACA ESTÁ LA LÍNEA NUEVA QUE CLAVA LOS FRENOS
             newScreen.style.animation = 'none'; 
             
             appContainer.style.position = '';
             appContainer.style.height = '';
             appContainer.style.overflow = '';
             
-            window.scrollTo(0, 0); // Lo mandamos arriba de todo
-            initRouter(); // Reiniciamos el rastreador para que encuentre los botones nuevos
+            window.scrollTo(0, 0); 
+            initRouter(); 
             isAnimating = false;
+
+            // ACA ESTÁ LA MAGIA NUEVA: Si entramos a la vista que tiene el gráfico, lo dibuja.
+            dibujarGraficoSalarios();
+
         }, 400);      
       
     } catch (error) {
-        console.error("Fallo la transición fluida, haciendo salto normal:", error);
-        window.location.href = url; // Fallback: si algo se rompe, salta normal para no dejar a pata al usuario
+        console.error("Fallo la transición, salto normal:", error);
+        window.location.href = url; 
     }
 }
 
-// Si el usuario toca la flechita de "Atrás" propia de su celular/navegador, recargamos la página para que no se rompa
 window.addEventListener('popstate', () => {
     window.location.reload();
 });
+
+
+/* ==========================================================
+   FUNCIÓN PARA DIBUJAR EL GRÁFICO INTERACTIVO (APEXCHARTS)
+   AHORA CARGA LOS DATOS EXTERNOS DESDE DATOS.JSON
+   ========================================================== */
+async function dibujarGraficoSalarios() {
+    // Buscamos si el HTML actual tiene el contenedor del gráfico
+    const contenedor = document.querySelector("#chart-salarios");
+    
+    // Si no está el contenedor o ya está dibujado, cortamos acá.
+    if (!contenedor || contenedor.innerHTML !== "") return;
+
+    try {
+        // Hacemos el pedido (fetch) al archivo externo. 
+        // Usamos "../datos.json" porque el HTML de esta página está dentro de la carpeta "detalles"
+        const respuesta = await fetch('../datos.json');
+        
+        if (!respuesta.ok) throw new Error("No se pudo cargar el archivo JSON");
+        
+        // Convertimos el archivo en un objeto de JavaScript
+        const datosExternos = await respuesta.json();
+
+        // Armamos las opciones del gráfico usando la información que acabamos de traer
+	// Armamos las opciones del gráfico
+        var options = {
+            series:[
+                { name: 'Docencia Universitaria', data: datosExternos.docentes },
+                { name: 'Privado Registrado', data: datosExternos.privados }
+            ],
+            chart: {
+                type: 'line',
+                height: 350,
+                fontFamily: 'Montserrat, sans-serif',
+                toolbar: {
+                    show: true,
+                    tools: { zoom: true, zoomin: false, zoomout: false, pan: true, reset: true, download: false, selection: false }
+                },
+                zoom: {
+                    enabled: true,
+                    type: 'x',
+                    autoScaleYaxis: true
+                },
+                // Traducimos las herramientas internas al español
+                locales:[{
+                    name: 'es',
+                    options: {
+                        toolbar: {
+                            pan: 'Mover',
+                            reset: 'Restaurar Zoom'
+                        }
+                    }
+                }],
+                defaultLocale: 'es'
+            },
+            colors:['#003380', '#D10020'],
+            stroke: { curve: 'straight', width: 3 },
+            xaxis: {
+                type: 'datetime',
+                labels: {
+                    format: 'yyyy', // Eje inferior: muestra solo el año para no amontonarse
+                    datetimeUTC: false
+                }
+            },
+            yaxis: {
+                title: { text: 'Índice (Ene 1999 = 100)', style: { fontWeight: 600 } }
+            },
+            legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '12px' },
+            tooltip: {
+                x: { format: 'dd-MM-yyyy' }, // Cartel flotante: muestra el formato latino al tocar
+                theme: 'light'
+            }
+        };
+
+        // Pintamos el gráfico
+        var chart = new ApexCharts(contenedor, options);
+        chart.render();
+
+    } catch (error) {
+        console.error("Error al graficar:", error);
+        contenedor.innerHTML = "<p style='padding: 20px; color: var(--accent-red);'>Ups, no se pudieron cargar los datos del gráfico histórico.</p>";
+    }
+}

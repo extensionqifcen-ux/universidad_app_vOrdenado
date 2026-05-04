@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Importamos ApexCharts para los gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   
   <!-- CONECTAMOS EL ARCHIVO CSS EXTERNO (está una carpeta arriba) -->
   <link rel="stylesheet" href="../estilos.css">
@@ -27,9 +30,12 @@
       <!-- Textos originales con sus estilos intactos -->
       <p class="subtitle" style="text-align: left;">.El salario real por hora de un profesor cayó drásticamente, haciendo necesario un aumento del 50% solo para recuperar el valor de compra que tenían en noviembre de 2023.</p>
 
-      <p class="subtitle" style="text-align: left;">.</p>
+       <!--<p class="subtitle" style="text-align: left;">.</p>
 
-      <p class="subtitle" style="text-align: left;">.</p>
+      <p class="subtitle" style="text-align: left;">.</p>-->
+
+      <!-- Acá es donde JavaScript va a inyectar el gráfico interctivo -->
+      <div id="chart-salarios" style="margin: 20px 0; width: 100%; min-height: 350px;"></div>
       
       <!-- Botón para volver a la sección correspondiente -->
       <button class="btn-back" onclick="window.location.href='../secciones/salarios.html'">Volver atrás</button>
