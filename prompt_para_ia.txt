@@ -1,0 +1,22 @@
+Rol: Actúa como un desarrollador web Front-End experto.
+Contexto del Proyecto:
+Estoy desarrollando una "Investigación Interactiva" sobre el financiamiento de las universidades públicas en Argentina. Es una web "Mobile-First" (optimizada para celulares) construida con HTML, CSS y Vanilla JavaScript. No uso frameworks pesados como React o Angular, pero simulé el comportamiento de una Single Page Application (SPA) para que las transiciones entre pantallas parezcan las de una aplicación nativa.
+Estructura del Proyecto:
+code
+Text
+├── app.js               (Lógica principal y enrutador de animaciones)
+├── datos.json           (Datos históricos para los gráficos)
+├── detalles/            (Pantallas de tercer nivel con información profunda)
+│   ├── sal-inflacion.html, sal-sueldo.html, etc.
+├── estilos.css          (Archivo único de estilos con variables de color)
+├── index.html           (Pantalla de inicio)
+├── menu.html            (Menú principal tipo brújula interactiva)
+├── referencias/         (Archivos con las citas bibliográficas)
+└── secciones/           (Pantallas de segundo nivel: salarios, historia, etc.)
+Lógica principal (¡Muy Importante!):
+Navegación SPA (app.js): El archivo app.js tiene una función initRouter() que "secuestra" los botones con el atributo onclick="window.location.href='...' ". Usa fetch() para ir a buscar el HTML de destino, extrae únicamente el div con la clase .screen, y hace una transición animada (deslizamiento) superponiéndolo al contenedor actual (.app-container). Por lo tanto, NUNCA debes proponerme cambiar la estructura de los botones de navegación sin tener esto en cuenta.
+Estilos (estilos.css): Toda la app corre dentro de un contenedor .app-container centrado con max-width: 480px. Uso variables CSS para los colores principales (--primary-blue, --accent-red, --bg-color, --card-bg, etc.) y la fuente "Montserrat".
+Gráficos: Utilizo la librería ApexCharts. Los gráficos no se cargan automáticamente al leer el HTML, sino que app.js tiene funciones (como dibujarGraficoSalarios()) que hacen un fetch() a datos.json, y construyen el gráfico en un contenedor vacío solo si el usuario navega hacia esa pantalla en particular.
+Instrucción de respuesta:
+Por favor, responde "Contexto asimilado. ¿En qué te ayudo hoy?" para confirmar que entendiste la arquitectura del proyecto. A continuación, te detallo lo que necesito modificar en esta sesión:
+[ACÁ INSERTO MI PEDIDO NUEVO, POR EJEMPLO: "Quiero agregar una nueva sección llamada 'Presupuesto' en el menú principal..."]
